@@ -1,0 +1,121 @@
+import { useState } from 'react';
+
+
+const defaultData = [
+  {
+    id: 1,
+    name: "rasiga",
+    position: "developer",
+    salary: 20000
+  },
+  {
+    id: 2,
+    name: "rasiga1",
+    position: "developer1",
+    salary: 40000
+  },
+  {
+    id: 3,
+    name: "rasiga2",
+    position: "developer2",
+    salary: 50000
+  }
+];
+
+function App() {
+  const [employeeList, setEmployeeList] = useState([...defaultData]);
+  const [addEmployee, setAddEmployee] = useState(false)
+  const [isSave, setSave] = useState(true)
+  const [data, setData] = useState({});
+
+  const handleAddEmployee = () => {
+    setAddEmployee(true)
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let id = employeeList.length + 1;
+    setData((prev) => ({
+      ...prev,
+      id,
+      [name]: value
+    }))
+
+
+  }
+
+  const handelSave = () => {
+    setSave(false)
+    setAddEmployee(false)
+    setEmployeeList((prev) => ([...prev, data]))
+  }
+  const handelDelete = (e, id) => {
+     e.preventDefault();
+     
+     let data = [...employeeList];
+     const res = data.filter((item) => item.id !== id);
+     setEmployeeList(res);
+  }
+
+  const handleEditChange = (e, id) => {
+    const { name, value } = e.target;
+  
+    setEmployeeList((prev) => (
+      prev.map((item) => 
+        item.id === id
+          ? {
+            ...item,
+            [name]: value
+          }
+          : item
+      )
+    ))
+  }
+
+  
+
+
+  return (
+    <div>
+      <h4> Employee List </h4>
+      <button onClick={handleAddEmployee}> Add Employee </button>
+      <table>
+        <thead>
+          <tr>
+            <th> Name </th>
+            <th> position </th>
+            <th> salary </th>
+          </tr>
+        </thead>
+        <tbody>
+          {employeeList?.map((item) => {
+            return (
+              <tr key={item?.id}>
+                <td> <input value={item?.name} onChange={(e) => handleEditChange(e, item?.id)} name="name" /> </td>
+                <td> <input value={item?.position} onChange={(e) => handleEditChange(e, item?.id)} name="position" /></td>
+                <td> <input value={item?.salary} onChange={(e) => handleEditChange(e, item?.id)} name="salary" /></td>
+                <td> <button onClick={(e) => handelDelete(e, item?.id)}> Delete </button> </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      {addEmployee &&
+        <table>
+          <tbody>
+            <tr>
+              <td> <input onChange={(e) => handleChange(e)} name="name" /> </td>
+              <td> <input onChange={(e) => handleChange(e)} name="position" /></td>
+              <td> <input onChange={(e) => handleChange(e)} name="salary" /></td>
+              {isSave &&
+                <td><button onClick={handelSave}> save </button></td>
+              }
+            </tr>
+          </tbody>
+        </table>
+      }
+    </div>
+  )
+}
+
+export default App
