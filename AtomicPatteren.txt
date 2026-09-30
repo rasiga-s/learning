@@ -1,0 +1,36 @@
+// Atom
+const Button = ({ text }) => <button> {text} </button>;
+const Input = () => <input type="text" />;
+
+//Molecules
+const SearchBar = () => (
+  <div>
+    <Input />
+    <Button text="search" />
+  </div>
+);
+
+// organisams
+const NavigationBar = () => (
+  <div>
+    <header>
+      <Button text="Home" />
+      <Button text="About" />
+      <Button text="Like" />
+    </header>
+  </div>
+);
+
+// templates
+const PageTemplate = ({ children }) => <div>{children}</div>;
+
+//Pages
+const HomePage = () => (
+  <PageTemplate>
+    <NavigationBar />
+    <h1> Welcome Home Page </h1>
+    <SearchBar />
+  </PageTemplate>
+);
+
+export default HomePage;

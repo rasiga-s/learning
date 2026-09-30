@@ -1,0 +1,31 @@
+import { useEffect, useRef, useState } from "react";
+
+function App() {
+  const ref = useRef(0);
+  const [count, Setcount] = useState(0);
+  const inputRef = useRef("");
+
+  const OnClickHandler = () => {
+    Setcount(ref.current++);
+  };
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+  return (
+    <>
+      <button onClick={OnClickHandler}>ADD</button>
+      <span>{count} </span>
+      <input type="text" ref={inputRef} />
+    </>
+  );
+}
+export default App;
+
+// ref
+// useRef is build react hook, it accpets input as a arguments and return  a reference
+// the referenece is build in object store a property value that belongs to the component
+// the value reference unchaged between component rerender
+// and when updating the reference value does'nt trigger a component re-rendering
+// useRef('');
+// ref.current;
+// ref.current = count

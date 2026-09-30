@@ -1,0 +1,549 @@
+// Import stylesheets
+import './style.css';
+
+Array.prototype.createEvery = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (!callback(this[i])) {
+      return false;
+    }
+  }
+  return true;
+};
+
+console.log([6, 4, 5].createEvery((element) => element > 3));
+
+let arr = [3, 4, 5, 6, 7, 9];
+let start = 0;
+let end = arr.length - 1;
+let key = 4;
+
+const findElement = (arr, start, end, key) => {
+  let mid = end + start / 2;
+
+  if (arr[mid] === key) {
+    return mid;
+  } else if (arr[mid] > key) {
+    return findElement(arr, start, mid - 1, key);
+  } else if (arr[mid] < key) {
+    return findElement(arr, mid + 1, end, key);
+  }
+};
+const value = findElement(arr, start, end, key);
+console.log('find Element', value);
+
+Array.prototype.createMap = function (callback) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i));
+  }
+  return result;
+};
+
+console.log([2, 3, 4].createMap((ele) => ele + 2));
+
+Array.prototype.createFilter = function (callback) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i])) {
+      result.push(this[i]);
+    }
+  }
+  return result;
+};
+
+console.log([2, 3, 4].createFilter((ele) => ele > 3));
+
+Array.prototype.createSort = function (callback) {
+  const newArray = [...this];
+
+  for (let i = 0; i < newArray.length; i++) {
+    for (let j = 0; j < newArray.length - 1; j++) {
+      if (callback(newArray[j], newArray[j + 1]) > 0) {
+        const temp = newArray[j + 1];
+        newArray[j + 1] = newArray[j];
+        newArray[j] = temp;
+      }
+    }
+  }
+  return newArray;
+};
+
+console.log([4, 5, 8, 3, 2, 6].createSort((a, b) => a - b));
+
+Array.prototype.createReduce = function (callback, acc) {
+  for (let i = 0; i < this.length; i++) {
+    acc = callback(this[i], acc);
+  }
+  return acc;
+};
+
+console.log([2, 3, 4].createReduce((acc, ele) => acc + ele, 0));
+
+let obj = {
+  revi: 200,
+  revanth: 100,
+  thee: 150,
+};
+
+const findToPSalaryandName = (obj) => {
+  let max = 0;
+  let Valuename = null;
+
+  for (const [name, salary] of Object.entries(obj)) {
+    if (max < salary) {
+      max = salary;
+      Valuename = name;
+    }
+  }
+  console.log(max);
+  console.log(Valuename);
+};
+
+findToPSalaryandName(obj);
+const findSingleElement = (arr) => {
+  let value = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr.indexOf(arr[i]) === arr.lastIndexOf(arr[i])) {
+      value.push(arr[i]);
+    }
+  }
+};
+
+findSingleElement([1, 2, 3, 2, 1]);
+
+console.log(typeof undefined);
+console.log(typeof null);
+console.log(typeof 0);
+console.log(typeof 10n);
+console.log(typeof Symbol('id'));
+console.log(typeof Math);
+console.log(typeof alert);
+console.log(typeof NaN);
+
+//TYPE CONVERSION
+console.log('6' / '2'); //convert the strig to number
+let str = '123';
+console.log(Number(str));
+console.log(typeof Number(str));
+let str1 = Number('Rasiga');
+console.log(str1);
+console.log(typeof str1);
+let str2 = Number('123Z');
+
+//Operand
+let remainder = 30 % 3;
+console.log(remainder);
+let pow2of3 = 2 ** 3;
+console.log(pow2of3);
+
+let a = '3';
+let b = '5';
+console.log(a + b);
+console.log(+a + +b); // frontof + convert string to number
+
+//Post and Pre
+let count = 0;
+let count1 = 0;
+console.log(++count); // precount
+console.log(count1++); // PostCount
+console.log(count1); // Count added
+
+let a1 = 1;
+let b1 = 1;
+let c = ++a1;
+let d = b1++;
+
+console.log(a1, b1, c, d);
+
+console.log('1.', null < 0);
+console.log('2.', null <= 0);
+console.log('3.', null > 0);
+console.log('4.', null >= 0);
+console.log('5.', null == 0);
+console.log('6.', null === undefined);
+console.log('7.', null == undefined);
+console.log('8.', '' == false);
+
+if ('0') {
+  // 0 if not entered
+  console.log('enter');
+}
+
+let height = 0;
+console.log(height || 100);
+console.log(height && 100);
+
+//Null Coalescing Operator
+let h1 = null;
+let h2 = 2;
+let area = (h1 ?? 100) * (h2 ?? 3); //  the nul coalescing operator is defined take a value other wise it will go next one, example here h1 is null so it take 100, second one h2 is defined so it take defined value 2 so both mulitple is 200
+console.log(area);
+
+// console.log(0 ?? 100); // 0 also consider value
+
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log('enter loop let variable', i), 1000);
+}
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log('enter loop var variable', i), 1000);
+}
+let iPreWhile = 0;
+while (++iPreWhile < 5) {
+  console.log('while loop pre increment', iPreWhile);
+}
+let iPostWhile = 0;
+while (iPostWhile++ < 5) {
+  console.log('while loop post increment', iPostWhile);
+}
+
+// //modal Messages
+// // alert("enter the value")
+// // prompt("enter the value", 100)
+// // confirm("enter the value is ok?")
+
+// //Switch
+// let Switchcase = 4;
+// switch (Switchcase) {
+//   case 1:
+//     console.log(1);
+//     break;
+//   case 2:
+//     console.log(2);
+//     break;
+//   case 3:
+//     console.log(3);
+//     break;
+//   case 4:
+//     console.log(4);
+//     break;
+//   default:
+//     console.log('no Value');
+// }
+
+showMessage();
+//Function Declaration
+function showMessage() {
+  console.log('Fuction Declaration able to hoisted');
+}
+
+//Function Expression
+var showFunctionExpression = function () {
+  console.log('Fnction Expression not be hoisted');
+};
+showFunctionExpression();
+
+hoistedA = 1000;
+console.log(hoistedA); // var is hosied
+var hoistedA;
+
+//  hoistedConst = 10000;
+//  console.log(hoistedConst); // const and let we not able hosited
+//  let hoistedConst;
+
+let user = new Object({ name: 'Rasi', age: 24 });
+delete user.name;
+console.log(user); // we able to delete
+
+let user1 = {};
+user1.name = 'Sabarish';
+user1.age = 24;
+console.log(user1);
+delete user1.age;
+console.log(user1); // we able to delete
+
+//  var user2 = Object.create({name:"Srinidhi", age: 20});
+var person = Object.create({ name: 'test', height: '5.7' });
+console.log('Enter object Created', delete person.height); // it return true
+console.log('enter the value', person);
+
+var dog = {
+  name: 'Rosiy',
+  age: 34,
+};
+var user2 = Object.create(dog); // object created {}
+console.log(user2);
+
+//Object Added
+
+let user3 = {
+  name: 'kayal',
+  age: 24,
+};
+user3.isRole = 'Admin';
+console.log(user3); // now admin addes
+
+let user4 = new Object({ name: 'kavan', age: 34 });
+user4.isAdmin = true;
+console.log(user4); //object added
+
+//  Multiword property in object
+let user5 = {
+  name: 'kamban',
+  age: 55,
+  'like kambaRamayanam': '100 times read',
+};
+console.log(user5.name); // kamban
+// console.log(user5.like kambaRamayanam) we not able to access like this
+console.log(user5['like kambaRamayanam']);
+console.log(delete user5.age);
+console.log('user', user5); // now age is deleted
+//console.log(delete user5.like Ramayanam)  we not able to delete multi words
+console.log(delete user5['like kambaRamayanam']); // is deleted now
+console.log(user5);
+
+let user6 = {
+  name: 'krishnan',
+  god: true,
+  seriels: 100,
+};
+// Object run in loops
+for (key in user6) {
+  console.log(key);
+  console.log(user6[key]);
+}
+// Objetc run of loops
+// for(key of user6) { // we not iteratable // because of key word is run array
+// }
+
+//shawllo copy and deep copy
+let obj1 = { name: 'loo', age: 34 };
+let shallowCopy = obj1;
+shallowCopy.isRole = 'Admin';
+console.log(shallowCopy);
+console.log(obj1);
+
+//Object Assign
+let user7 = {
+  name: 'tile',
+  age: 67,
+};
+let p1 = { isRole: 'Admin' };
+let p2 = { isRole2: 'User' };
+Object.assign(user7, p1, p2);
+console.log(user7); // two Object is Merged in single Object
+
+//Clone the Object using Object Assign
+
+let user8 = {
+  name: 'poe',
+  age: 45,
+};
+let clone = Object.assign({}, user8);
+console.log(clone); // data cloned;
+delete clone.name;
+console.log(clone); // cloned data deleted
+console.log(user8); // still data is there in object
+
+// Object Methods
+
+let user9 = {
+  name: 'fol',
+  age: 45,
+  sayHi() {
+    console.log(this.name); // return fol
+  },
+};
+user9.sayHi();
+
+//Function Declaration this keword
+function helloMessage() {
+  console.log(this); // undefined
+}
+helloMessage();
+
+//Function Expression this keword
+let helloMessageExpression = function () {
+  console.log(this); // undefined
+};
+helloMessageExpression();
+
+//Function Expression this keword
+let helloMessageArrow = () => {
+  console.log(this); // Object
+};
+helloMessageArrow();
+
+//Symbol is unquie
+
+let id1 = Symbol('id1');
+let id2 = Symbol('id2');
+console.log(id1 == id2);
+console.log(id1 === id2);
+
+console.log(typeof new Number(10));
+console.log(NaN === NaN);
+console.log(NaN == NaN);
+
+let MaxNumber = (3, 4, 5, 8, 7);
+console.log(Math.max(MaxNumber));
+console.log(Math.min(1, 2));
+
+//String Methods;
+let stringValue = 'yellow';
+console.log(stringValue.length);
+console.log(stringValue[stringValue.length - 1]);
+console.log(stringValue.at(0));
+console.log(stringValue.at(-1)); // if give -1 laste value
+console.log(stringValue[4]);
+
+console.log(stringValue.at(-6)); // y
+console.log(stringValue.at(-7)); // undefined
+console.log(stringValue[3]); // positive value it return value
+console.log(stringValue[-4]); // array bracket - negative value it return undefined
+
+let string1 = 'RASIGA';
+for (let key of string1) {
+  console.log(key); //we able to loop string also
+}
+
+//String are immutable can not be chaged
+let string2 = 'HI';
+// string2[0] = 'h'; // error we not able to change
+//we able to replace it.
+string2 = 'h' + string2[1];
+console.log(string2); // now it replace
+
+let string3 = 'God Bless You Welcome God all ways we need you';
+console.log(string3.indexOf('God')); // G starts with 0 so index also 0
+console.log(string3.indexOf('Bless')); // B starts with 4 th index
+console.log(string3.lastIndexOf('God')); // God is 22th place exit again
+let array1 = [3, 4, 5, 6, 7, 1, 6, 4];
+console.log(array1.indexOf(4)); // indexof meaning 4 starting with exist 1 index
+console.log(array1.lastIndexOf(4)); // and same data is exist again so second time it is exist 7 th index thatis last index.
+console.log(array1.includes(2)); // inside the array 2 not exist so return false
+console.log(array1.includes(3));
+console.log(string3.includes('g')); // lowercase small g is not exist so return false
+console.log(string3.includes('you')); // true
+console.log(string3.startsWith('God')); // string start with God so retrun true
+// console.log(array1.startsWith(6)) // array we not able to use starts with and end with
+
+let string4 = 'Peacock'; // slice consider start value and end value- 1
+console.log(string4.slice(0, 2));
+console.log(string4.slice(2, 4));
+console.log(string4); // not change original value
+let string5 = 'Peacock';
+// console.log(string5.splice(0,2)) //direct strig we not able to splice it so covert string to array using split
+console.log(string5.split('').splice(0, 2)); //now it is spliced
+console.log(string5.substring(2, 4)); // substirng and slice both are similar
+
+let array2 = new Array(2, 3, 4, 5, 6);
+console.log(array2.at(-1)); // last index value
+
+//PUSH and POP Shift, Unshift method
+array2.push(9);
+console.log('Data Pushed', array2); // data pushed end of the array
+array2.unshift(1);
+console.log('Data UnShifted', array2); //data unshifted start of the Array
+array2.pop();
+console.log('Data Poped', array2); // original Array is [1,2,3,4,5,6,9] so 9 end of element removed
+array2.shift();
+console.log('Data shifted', array2); // so 1 is removed start of the element
+
+const breakNumbers = (n) => {
+  let mod = 10000007;
+  let ans = n + 1;
+  ans = ans * (n + 2);
+  ans = ans % mod;
+  return ans / 2;
+};
+console.log(breakNumbers(2));
+
+const checkArrayEqual = (a1, a2) => {
+  a1.sort((a, b) => a - b);
+  a2.sort((a, b) => a - b);
+
+  for (let i = 0; i < a1.length; i++) {
+    if (a1[i] != a2[i]) {
+      return 0;
+    }
+  }
+  return 1;
+};
+
+// let a1 = A.sort((a,b) => a-b)
+// let a2 = B.sort((a,b) => a-b)
+//   if(a1.length !== a2.length || !a1.every((ele, index) => ele === a2[index])){
+//       return 0
+//   }
+//   return 1
+//   }
+console.log(checkArrayEqual([1, 2], [2, 1]));
+
+const unCommonChar = (a, b) => {
+  let resultA = a
+    .split('')
+    .filter((elem) => b.indexOf(elem) == -1)
+    .join('');
+  let resultB = b
+    .split('')
+    .filter((elem) => a.indexOf(elem) == -1)
+    .join('');
+  let merge = resultA.concat(resultB);
+  if (merge == '') {
+    return -1;
+  }
+  let array = merge.split('');
+  let ele = [];
+  for (let i = 0; i < array.length; i++) {
+    if (!ele.includes(array[i])) {
+      ele.push(array[i]);
+    }
+  }
+  let ele1 = ele.sort();
+  return ele1.join('');
+};
+
+console.log(unCommonChar('geeks', 'geeks'));
+
+const findSubString = (s, x) => {
+  return s.indexOf(x);
+};
+
+console.log(findSubString('geeksforgeeks', 'fr'));
+
+const powerOf2 = (n) => {
+  let pow = 1;
+  while (n == pow) {
+    pow = pow * 2;
+    console.log(pow);
+  }
+  console.log('enter', pow);
+};
+console.log(powerOf2(16));
+
+const arraySort = (arr) => {
+  arr.sort((a, b) => a - b);
+  console.log(arr);
+};
+
+console.log(arraySort([1, -2, -3, 4, -5]));
+
+const largestNumber = (arr) => {
+  console.log('Enter', arr.reverse().join(''));
+};
+
+console.log(largestNumber([3, 30, 34, 5, 9]));
+
+const reverseInegers = (num) => {
+  let rev = '';
+  let val = num < 0 ? 1 : 0;
+  for (let i = val; i < num.length; i++) {
+    rev = num[i] + rev;
+  }
+  return num < 0 ? '-' + rev : rev;
+};
+console.log(reverseInegers('-123'));
+
+const removeDublicateWitoutNewArray = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr.indexOf(arr[i]) !== arr.lastIndexOf(arr[i])) {
+      arr.splice(i, 1);
+    }
+  }
+  return arr;
+};
+
+console.log(removeDublicateWitoutNewArray([1, 1, 2]));
+// Write Javascript code!
+const appDiv = document.getElementById('app');
+appDiv.innerHTML = `<h1>JS Starter</h1>`;
