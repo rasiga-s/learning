@@ -12,7 +12,7 @@ Array.prototype.createEvery = function (callback) {
 
 console.log([6, 4, 5].createEvery((element) => element > 3));
 
-let arr = [3, 4, 5, 6, 7, 9];
+let arr = [1, 2, 3, 6, 7, 9];
 let start = 0;
 let end = arr.length - 1;
 let key = 4;
@@ -144,7 +144,7 @@ console.log(+a + +b); // frontof + convert string to number
 //Post and Pre
 let count = 0;
 let count1 = 0;
-console.log(++count); // precount
+console.log('enter the count1', ++count); // precount
 console.log(count1++); // PostCount
 console.log(count1); // Count added
 
@@ -233,7 +233,7 @@ var showFunctionExpression = function () {
 showFunctionExpression();
 
 hoistedA = 1000;
-console.log(hoistedA); // var is hosied
+console.log('enter the hostied', hoistedA); // var is hosied
 var hoistedA;
 
 //  hoistedConst = 10000;
@@ -261,7 +261,7 @@ var dog = {
   age: 34,
 };
 var user2 = Object.create(dog); // object created {}
-console.log(user2);
+console.log('enter the user2 value', user2);
 
 //Object Added
 
@@ -274,7 +274,7 @@ console.log(user3); // now admin addes
 
 let user4 = new Object({ name: 'kavan', age: 34 });
 user4.isAdmin = true;
-console.log(user4); //object added
+console.log('enter the user4', user4); //object added
 
 //  Multiword property in object
 let user5 = {
@@ -309,8 +309,8 @@ for (key in user6) {
 let obj1 = { name: 'loo', age: 34 };
 let shallowCopy = obj1;
 shallowCopy.isRole = 'Admin';
-console.log(shallowCopy);
-console.log(obj1);
+console.log('enter the shallowCopy', shallowCopy);
+console.log('enter the obj1', obj1);
 
 //Object Assign
 let user7 = {
@@ -367,16 +367,16 @@ helloMessageArrow();
 
 let id1 = Symbol('id1');
 let id2 = Symbol('id2');
-console.log(id1 == id2);
+console.log('Symbol', id1 == id2);
 console.log(id1 === id2);
 
-console.log(typeof new Number(10));
-console.log(NaN === NaN);
-console.log(NaN == NaN);
+console.log('enter the typeof', typeof new Number(10));
+console.log('netre the NAN', NaN === NaN);
+console.log('NAn both are not equla', NaN == NaN);
 
 let MaxNumber = (3, 4, 5, 8, 7);
 console.log(Math.max(MaxNumber));
-console.log(Math.min(1, 2));
+console.log('enter the number in minimum', Math.min(1, 2));
 
 //String Methods;
 let stringValue = 'yellow';
@@ -430,14 +430,16 @@ let array2 = new Array(2, 3, 4, 5, 6);
 console.log(array2.at(-1)); // last index value
 
 //PUSH and POP Shift, Unshift method
+// let array2 = [];
 array2.push(9);
+array2.push(10);
 console.log('Data Pushed', array2); // data pushed end of the array
 array2.unshift(1);
-console.log('Data UnShifted', array2); //data unshifted start of the Array
+console.log('Data UnShifted', array2); //data insert start of the Array
 array2.pop();
 console.log('Data Poped', array2); // original Array is [1,2,3,4,5,6,9] so 9 end of element removed
 array2.shift();
-console.log('Data shifted', array2); // so 1 is removed start of the element
+console.log('Data shifted', array2); // start of element is removed
 
 const breakNumbers = (n) => {
   let mod = 10000007;
@@ -446,7 +448,7 @@ const breakNumbers = (n) => {
   ans = ans % mod;
   return ans / 2;
 };
-console.log(breakNumbers(2));
+console.log('netre the breakNumber', breakNumbers(2));
 
 const checkArrayEqual = (a1, a2) => {
   a1.sort((a, b) => a - b);
@@ -460,6 +462,23 @@ const checkArrayEqual = (a1, a2) => {
   return 1;
 };
 
+function checkArrayEqual1(arr1, arr2) {
+  let set = new Set(arr1);
+  let set1 = new Set(arr2);
+
+  if (set.size !== set1.size) {
+    return false;
+  }
+
+  for (let num of set) {
+    if (!set1.has(num)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+console.log(checkArrayEqual1([1, 2], [1, 2]));
 // let a1 = A.sort((a,b) => a-b)
 // let a2 = B.sort((a,b) => a-b)
 //   if(a1.length !== a2.length || !a1.every((ele, index) => ele === a2[index])){
@@ -493,6 +512,28 @@ const unCommonChar = (a, b) => {
   return ele1.join('');
 };
 
+function unCommonChar1(str1, str2) {
+  let set1 = new Set(str1);
+  let set2 = new Set(str2);
+  let result = [];
+
+  for (let char of set1) {
+    if (!set2.has(char)) {
+      result.push(char);
+    }
+  }
+
+  for (let char of set2) {
+    if (!set1.has(char)) {
+      result.push(char);
+    }
+  }
+
+  return result.join('');
+}
+
+console.log(unCommonChar1('geeks', 'geaks'));
+
 console.log(unCommonChar('geeks', 'geeks'));
 
 const findSubString = (s, x) => {
@@ -507,9 +548,10 @@ const powerOf2 = (n) => {
     pow = pow * 2;
     console.log(pow);
   }
+  return pow;
   console.log('enter', pow);
 };
-console.log(powerOf2(16));
+console.log('enter the powerof 2', powerOf2(16));
 
 const arraySort = (arr) => {
   arr.sort((a, b) => a - b);
@@ -542,8 +584,1547 @@ const removeDublicateWitoutNewArray = (arr) => {
   }
   return arr;
 };
-
 console.log(removeDublicateWitoutNewArray([1, 1, 2]));
-// Write Javascript code!
-const appDiv = document.getElementById('app');
-appDiv.innerHTML = `<h1>JS Starter</h1>`;
+
+const reverseOnlyChar = (S) => {
+  let l = 0;
+  let r = S.length - 1;
+  let arr = S.split('');
+
+  while (l < r) {
+    if (!isAlpha(arr[l])) {
+      l++;
+    }
+    if (!isAlpha(arr[r])) {
+      r--;
+    }
+    if (isAlpha(arr[l]) && isAlpha(arr[r])) {
+      [arr[l], arr[r]] = [arr[r], arr[l]];
+      l++;
+      r--;
+    }
+  }
+  return arr.join('');
+};
+var isAlpha = (c) => /[a-zA-Z]/.test(c);
+console.log(reverseOnlyChar('a-bC-dEf-ghIj'));
+
+// Array.prototype.push = function (x) {
+//   if (this.top == this.arr.length - 1) {
+//     return;
+//   }
+//   this.top = this.top + 1;
+//   this.arr[this.top] = x;
+// };
+
+// Array.prototype.pop = function () {
+//   if (this.top === -1) {
+//     return -1;
+//   }
+//   let e = this.arr[this.top];
+//   this.top = this.top - 1;
+//   return e;
+// };
+
+// push(2);
+// push(3);
+// pop();
+// push(4);
+// pop();
+
+const BinarySort = (A, N) => {
+  let i = 0;
+  let j = 0;
+  while (i < N) {
+    if (A[i] == 0) {
+      [A[i], A[j]] = [A[j], A[i]];
+      i++;
+      j++;
+    } else {
+      i++;
+    }
+  }
+  return A;
+};
+
+console.log(BinarySort([1, 0, 1, 0, 1], 5));
+
+const convertFive = (num) => {
+  let arr = num.toString().split('');
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == '0') {
+      arr.splice(i, 1, '5');
+    }
+  }
+  return arr.join(''); // 0 converted 5 using splice method
+};
+
+console.log(convertFive([1004]));
+
+const OddandEvenSort = (arr) => {
+  let odds = [];
+  arr.sort((a, b) => a - b);
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 !== 0) {
+      odds.push(arr[i]);
+      arr.splice(i, 1);
+      i--;
+    }
+  }
+  odds.sort((a, b) => a - b);
+  let res = odds.concat(arr);
+  for (let i = 0; i < res.length; i++) {
+    arr[i] = res[i];
+  }
+  return res;
+};
+
+console.log(OddandEvenSort([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+
+const maxProduct = (arr, n) => {
+  arr.sort((a, b) => a - b);
+  return arr[n - 2] * arr[n - 1];
+};
+console.log(maxProduct([1, 2, 3, 4, 5, 6], 6));
+
+const alternativeSorting = (arr) => {
+  arr.sort((a, b) => a - b);
+  console.log(arr);
+
+  let l = arr.length - 1;
+  let r = 0;
+  let flag = true;
+  let result = [];
+  while (r <= l) {
+    if (flag) {
+      result.push(arr[l]);
+      l--;
+      flag = false;
+    } else {
+      result.push(arr[r]);
+      r++;
+      flag = true;
+    }
+  }
+  return result;
+};
+console.log(alternativeSorting([7, 1, 2, 3, 4, 5, 6]));
+
+const splitTheStringFindCamelCase = (str) => {
+  let str1 = str.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+  console.log(str1);
+  return str1.split(' ').length;
+};
+
+console.log(splitTheStringFindCamelCase('RasigaSelvamfFFFFF'));
+
+const count2 = (str) => {
+  let upper = str.length - str.replace(/[A-Z]/g, '').length;
+  let lower = str.length - str.replace(/[a-z]/g, '').length;
+  let number = str.length - str.replace(/[0-9]/g, '').length;
+  let sepcial =
+    str.length -
+    str.replace(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g, '').length;
+
+  let res = upper + '' + lower + '' + number + '' + sepcial;
+  return res;
+};
+
+console.log(count2('#fffrrf$GGGTT$'));
+
+const checkstringandnum = (str) => {
+  var matches = Math.floor(str.replace(/[^0-9]/g, ''));
+  let res = str.replace(/[0-9]/g, '');
+  if (matches == res.length) {
+    return 1;
+  }
+  return 0;
+};
+
+console.log(checkstringandnum('gwfchbznorpwvj000014'));
+
+const remainderWith7 = (n) => {
+  n = BigInt(n);
+  return (n % 7n).toString();
+};
+console.log(remainderWith7(8));
+
+const repeatedString = (s) => {
+  let map = new Map();
+  for (let i = 0; i < s.length; i++) {
+    let char = s[i];
+    if (map.has(char)) {
+      //map.set(char,map.get(char)+1);
+      return char;
+    } else {
+      map.set(char, 1);
+    }
+  }
+  return -1;
+};
+console.log(repeatedString('geeksforgeeks'));
+
+const findIndexOccuerance = (arr, n, x) => {
+  let [start, end] = [0, n - 1];
+  while (start <= end) {
+    if (arr[start] == x && arr[end] == x) {
+      return [start, end];
+    }
+    if (x > arr[start]) {
+      start++;
+    }
+    if (x < arr[end]) {
+      end--;
+    }
+  }
+  return [-1, -1];
+};
+
+console.log(findIndexOccuerance([1, 3, 5, 5, 5, 5, 67, 123, 125], 9, 5));
+
+const removeConsecutiveCharacter = (str) => {
+  let s = '';
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] != str[i + 1]) {
+      s = s + str[i];
+    }
+  }
+  return s;
+};
+console.log(removeConsecutiveCharacter('aabb'));
+
+// const arrangeArray = (str) => {
+//   let arr = str.split('');
+//   let vowels = ['a', 'e', 'i', 'o', 'u'];
+//   let l = 0;
+//   let r = arr.length;
+
+//   while (l < r) {
+//     if (vowels.indexOf(arr[l]) == -1) {
+//       l++;
+//       continue;
+//     }
+//     if (vowels.indexOf(arr[r] == -1)) {
+//       r++;
+//       continue;
+//     }
+//     const temp = arr[l];
+//     arr[l] = arr[r];
+//     arr[r] = temp;
+
+//     l++;
+//     r--;
+//   }
+//   console.log('enter the ', arr);
+// };
+// console.log(arrangeArray('practice'));
+
+const suffleArray = (arr) => {
+  let i = 0;
+  let j = Math.floor(arr.length / 2);
+  let res = [];
+  while (i < j && j < n) {
+    if (i < j) {
+      res.push(arr[i]);
+    }
+    if (j < arr.length) {
+      res.push(arr[j]);
+    }
+    i++;
+    j++;
+  }
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = res[i];
+  }
+  return arr;
+};
+
+console.log(suffleArray[(1, 2, 9, 15)]);
+
+const convert = (arr) => {
+  arr.map((item) => ({ [item.key]: item.value }));
+  let newObj = Object.assign({}, ...arr);
+  return newObj;
+};
+
+console.log(convert([{ a: 1 }, { b: 2 }, { c: 3 }]));
+
+const multiArray = (arr) => {
+  let res = arr.map((item) => {
+    return item * 2;
+  });
+  return res;
+};
+
+console.log(multiArray([1, 2, 3, 4, 5]));
+
+let input = [
+  { name: 'apples', category: 'fruits' },
+  { name: 'oranges', category: 'fruits' },
+  { name: 'potatoes', category: 'vegetables' },
+];
+
+const groupeByListOfId = () => {
+  let res = {};
+  input.forEach((item) => {
+    res[item.category] = res[item.category] ? res[item.category] : [];
+    res[item.category].push(item);
+  });
+  console.log(res);
+};
+
+console.log(groupeByListOfId());
+
+let arrayLike = {
+  0: 'hello',
+  1: 'world',
+  length: 2,
+};
+let arr10 = Array.from(arrayLike);
+console.log('enter the arrrau', arr10);
+
+const sumall = (...args) => {
+  console.log(args);
+};
+
+console.log('enter the array rest', sumall(1, 2, 3, 4, 5));
+
+let objectValue = {
+  name: 'rasiga',
+  id: 12,
+};
+let { first1, second1 } = objectValue;
+console.log(first1);
+let user11 = { name: objectValue.name, id: objectValue.id };
+console.log('enter the user', user11);
+
+let array12 = [1, 2];
+let [first, second] = array12;
+console.log(first);
+
+// Implicit Binding
+
+let implicit = {
+  name: 'ImplicitValue',
+  blog: function () {
+    console.log(this.name);
+  },
+};
+console.log(implicit.blog());
+
+let implicit1 = {
+  blog1: function (obj) {
+    console.log('value enter the doll', this.name);
+  },
+};
+let toll = { name: 'kiki' };
+console.log(implicit1.blog1(toll));
+// Explicit Binding Using Call
+
+var explicitCall = {
+  name: 'explicitCall',
+  messages: function (arry1) {
+    console.log(this.name);
+    console.log(this.id);
+    console.log(arry1);
+  },
+};
+let obj2 = {
+  name: 'revi',
+  id: 1,
+};
+let arry = ['rasiga', 'sabarish'];
+explicitCall.messages.call(obj2, arry[0]);
+
+//Explicit Binding Apply
+var explicitApply = {
+  name: 'explicitApply',
+  messages: function (val, val1) {
+    console.log(val);
+    console.log(val1);
+    console.log(this.id);
+    console.log(this.name);
+  },
+};
+let array = ['selvam', 'kasthuri'];
+explicitApply.messages.apply(obj2, array);
+
+//Explicit Bind Method
+
+var explicitBind = {
+  name: 'rasi',
+  message: function () {
+    console.log('explicitBinding', this);
+  },
+};
+var values = explicitBind.message.bind(obj2);
+values();
+
+//new Keyword Binding
+let Cartoon = function (name, animal) {
+  this.name = name;
+  this.animal = animal;
+};
+let tom = new Cartoon('tom', 'cat');
+console.log(tom);
+
+//JS Global Object Binding
+
+let globalObject = function () {
+  console.log(this);
+};
+window.name = 'gobalRasiga'; // using browser console it will work
+globalObject();
+
+//Sum of array of Object with same key
+
+let list = [
+  {
+    fileSize: 10,
+    collection: 'a',
+  },
+  {
+    fileSize: 100,
+    collection: 'b',
+  },
+  {
+    fileSize: 20,
+    collection: 'a',
+  },
+  {
+    fileSize: 10,
+    collection: 'c',
+  },
+];
+
+const sum = list.reduce((a, c) => {
+  let x = a.find((e) => e.collection === c.collection);
+  if (!x) {
+    a.push(Object.assign({}, c));
+  } else {
+    x.fileSize += c.fileSize;
+  }
+  return a;
+}, []);
+console.log('enter the sum vfvf', sum);
+
+list.sort((a, b) => (a.fileSize > b.fileSize ? a.fileSize > b.fileSize : -1));
+console.log('enter the array of object sort', list);
+
+const names = ['Jon', 'Jacob', 'Jeff'];
+
+const copy1 = [...names];
+const copy2 = Object.assign([], names);
+const copy3 = JSON.parse(JSON.stringify(names)); // create deep copy
+const copy4 = names.slice();
+
+const copy21 = [].concat(names);
+const copy31 = Object.values(names);
+const copy5 = Array.of(...names);
+const copy7 = names.map((i) => i);
+
+console.log(copy1);
+console.log(copy2);
+console.log(copy3);
+console.log(copy4);
+console.log(copy21);
+console.log(copy31);
+console.log(copy5);
+console.log(copy7);
+console.log(names);
+
+function pow(x, n) {
+  if (n == 1) {
+    return x;
+  } else {
+    return x * pow(x, n - 1);
+  }
+}
+console.log(pow(2, 3));
+
+const reverseString = (S) => {
+  let l = 0;
+  let r = S.length - 1;
+  let arr = S.split('');
+
+  while (l < r) {
+    [arr[l], arr[r]] = [arr[r], arr[l]];
+    l++;
+    r--;
+  }
+  arr.join();
+  console.log('enter the arr', arr.join(''));
+};
+
+console.log(reverseString('mom'));
+
+var func = function (str1, str2) {
+  if (str1.length < str2.length) {
+    [str1, str2] = [str2, str1];
+  }
+  if (str1 + str2 !== str2 + str1) {
+    return '';
+  }
+  const gcdLen = gcd(str1.length, str2.length);
+  return str1.substring(0, gcdLen);
+};
+
+const gcd = (a, b) => {
+  while (b !== 0) {
+    let temp = a % b;
+    a = b;
+    b = temp;
+  }
+  return a;
+};
+
+console.log(func('ABCABC', 'ABC'));
+function curry(func) {
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function (...args2) {
+        return curried.apply(this, args.concat(args2));
+      };
+    }
+  };
+}
+
+function sum1(a, b, c) {
+  return a + b + c;
+}
+let curriedSum = curry(sum1);
+console.log(curriedSum(1)(2)(3));
+console.log(curriedSum(1, 2, 3));
+console.log(curriedSum(1), (2, 3));
+
+function currying(a) {
+  return function (b) {
+    if (!b) {
+      return a;
+    }
+    return currying(a + b);
+  };
+}
+
+console.log(currying(1)(2)(3)());
+
+let ob = {
+  Company: 'GeeksforGeeks',
+  Address: 'Noida',
+  contact: +91 - 999999999,
+  mentor: {
+    HTML: 'GFG',
+    CSS: 'GFG',
+    JavaScript: 'GFG',
+  },
+};
+
+const flattenObj = (val) => {
+  let result = {};
+  for (const i in val) {
+    if (typeof val[i] === 'object' && !Array.isArray(val[i])) {
+      let temp = flattenObj(val[i]);
+      for (const j in temp) {
+        result[i + '.' + j] = temp[j];
+      }
+    } else {
+      result[i] = val[i];
+    }
+  }
+  return result;
+};
+
+console.log(flattenObj(ob));
+
+const flatten = (arr) => {
+  let res = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      res = res.concat(flatten(arr[i]));
+    } else {
+      res.push(arr[i]);
+    }
+  }
+  return res;
+};
+
+console.log(
+  flatten([1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]])
+);
+
+Array.prototype.flatten = function (callback) {
+  let res = [];
+  for (let i = 0; i < this.length; i++) {
+    if (Array.isArray(this[i])) {
+      res = res.concat(this[i].flatten());
+    } else {
+      res.push(this[i]);
+    }
+  }
+  return res;
+};
+
+let arr1 = [1, 2, [3, [4, 5, 6], 7], 8].flatten();
+
+let str10 = '{[(})]}';
+
+const isVaild = (s) => {
+  let map = {
+    '}': '{',
+    ')': '(',
+    ']': '[',
+  };
+  let arr = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '{' || s[i] === '[' || s[i] === '(') {
+      arr.push(s[i]);
+    } else if (arr[arr.length - 1] === map[s[i]]) {
+      arr.pop();
+    } else {
+      return false;
+    }
+  }
+  return arr.length ? false : true;
+};
+console.log(isVaild(str10));
+const primeOrNot = (num) => {
+  let flag = true;
+  if (num === 1) {
+    console.log('composite number');
+  }
+  if (num > 1) {
+    for (let i = 2; i < num; i++) {
+      if (num % i == 0) {
+        flag = false;
+        break;
+      }
+    }
+  }
+  if (flag) {
+    return 'prime';
+  } else {
+    return 'not prime';
+  }
+};
+
+console.log(primeOrNot(23));
+
+const permutaion = [1, 2, 3];
+const findPermutations = (arr = []) => {
+  let res = [];
+  const helper = (arr2) => {
+    if (arr2.length == arr.length) return res.push(arr2);
+    for (let e of arr) if (!arr2.includes(e)) helper([...arr2, e]);
+  };
+  helper([]);
+  return res;
+};
+console.log(findPermutations(permutaion));
+
+var permute = function (nums) {
+  var results = [];
+
+  var recursive = (result) => {
+    if (result.length === nums.length) {
+      results.push(result.slice());
+      return;
+    }
+
+    for (var i = 0; i < nums.length; i++) {
+      if (!result.includes(nums[i])) {
+        result.push(nums[i]);
+        recursive(result);
+        result.pop();
+      }
+    }
+  };
+
+  recursive([]);
+  return results;
+};
+console.log(permute([1, 2, 3]));
+
+var searchInsert = function (nums, target) {
+  if (nums.includes(target)) return nums.indexOf(target);
+  return [...nums, target].sort((a, b) => a - b).indexOf(target);
+};
+
+console.log(searchInsert([1, 2, 3], 4));
+function countDigit(n) {
+  let count = 0;
+  while (n != 0) {
+    n = Math.floor(n / 10);
+    ++count;
+  }
+  return count;
+}
+
+console.log(countDigit(12));
+
+var sumOddLengthSubarrays = function (arr) {
+  var sum = 0;
+  var l = arr.length;
+  for (var i = 0; i < l; i++) {
+    for (var j = i; j < l; j += 2) {
+      for (var k = i; k <= j; k++) {
+        sum += arr[k];
+      }
+    }
+  }
+  return sum;
+};
+// 1
+// 2
+// 3
+// 4
+// 1,2,3
+// 2,3,4
+console.log(sumOddLengthSubarrays([1, 2, 3, 4]));
+
+var thousandSeparator = function (n) {
+  if (n < 1000) {
+    return n.toString();
+  }
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};
+
+console.log(thousandSeparator(1000));
+
+var thirdMax = function (nums) {
+  const arr = Array.from(new Set(nums)).sort((a, b) => b - a);
+  return arr[2] === undefined ? arr[0] : arr[2];
+};
+console.log(thirdMax([1, 2, 3, 4]));
+
+const combinations = (arr) =>
+  arr.reduce(
+    (acc, item) => {
+      return acc.concat(acc.map((x) => [...x, item]));
+    },
+    [[]]
+  );
+
+console.log(
+  combinations([1, 2, 3]).filter((a) => a.length >= 2 && a.length < 3)
+);
+const rate = (ranks) => {
+  let counts = {};
+  ranks.forEach(function (x) {
+    counts[x] = (counts[x] || 0) + 1;
+  });
+  return counts;
+};
+console.log('enter rate ', rate([1, 2, 3, 1, 3]));
+
+// const ranksMap = ranks.reduce((acc, rank) => {
+//   acc[rank] = (acc[rank] ?? 0) + 1;
+//   return acc;
+// }, {});
+
+var findDifference = function (nums1, nums2) {
+  let set1 = new Set(nums1);
+  let set2 = new Set(nums2);
+  let csm = [];
+  csm[0] = [...set1].filter((x) => !set2.has(x));
+  csm[1] = [...set2].filter((x) => !set1.has(x));
+  return csm;
+};
+
+console.log(findDifference([1, 2, 3], [2, 4, 6]));
+
+var vowelStrings = function (s, left, right) {
+  let vowel = ['a', 'e', 'i', 'o', 'u'];
+  let count = 0;
+  for (let i = left; i <= right; i++) {
+    if (vowel.includes(s[i][0]) && vowel.includes(s[i][s[i].length - 1])) {
+      count += 1;
+    }
+  }
+  return count;
+};
+
+console.log(vowelStrings(['are', 'mu', 'u'], 0, 2));
+function sortDates(dates) {
+  dates.sort(function (a, b) {
+    var da = new Date(a).getTime();
+    var db = new Date(b).getTime();
+
+    return da < db ? -1 : da > db ? 1 : 0;
+  });
+  return dates;
+}
+console.log(
+  sortDates([
+    '2016,10,01',
+    '2016,09,13',
+    '2016,09,05',
+    '2016,09,09',
+    '2016,10,02',
+  ])
+);
+var detectCapitalUse = function (word) {
+  let val = /^[A-Z]+$/.test(word);
+  return val;
+};
+console.log(detectCapitalUse('USA'));
+
+// All letters in this word are capitals, like "USA".
+// All letters in this word are not capitals, like "leetcode".
+// Only the first letter in this word is capital, like "Google".
+var detectCapitalUse1 = function (word) {
+  return /(^[A-Z]+$)|(^[a-z]+$)|(^[A-Z]([a-z]+)$)/.test(word);
+};
+var tribonacci = function (n) {
+  if (n == 0) return 0;
+  if (n == 1) return 1;
+  if (n == 2) return 1;
+  return tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3);
+};
+
+function PromisePloyFill(excutor) {
+  let OnResolve, OnReject;
+
+  function resolve(value) {
+    OnResolve(value);
+  }
+  function reject(value) {
+    OnReject(value);
+  }
+  this.then = function (callback) {
+    OnResolve = callback;
+    return this;
+  };
+  this.catch = function (callback) {
+    OnReject = callback;
+    return this;
+  };
+  excutor(resolve, reject);
+}
+
+const exPromise = new PromisePloyFill((resolve, reject) => {
+  setTimeout(() => {
+    resolve(2);
+  });
+});
+
+exPromise
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+function importAction(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(data);
+    }, 1000);
+  });
+}
+function LikeAction(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(data);
+    }, 0);
+  });
+}
+function shareAction(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(data);
+    }, 100);
+  });
+}
+
+Promise.allPloyfill = (promises) => {
+  return new Promise((resolve, reject) => {
+    let result = [];
+    if (!promises.length) {
+      resolve(result);
+      return;
+    }
+    let pending = promises.length;
+    console.log(pending);
+    promises.forEach((promise, idx) => {
+      Promise.resolve(promise).then((res) => {
+        result[idx] = res;
+        pending--;
+        if (pending == 0) {
+          resolve(result);
+        }
+      }, reject);
+    });
+  });
+};
+
+Promise.allPloyfill([
+  importAction('import'),
+  LikeAction('like'),
+  shareAction('share'),
+]).then((res) => {
+  console.log(res);
+});
+
+Promise.racePloyfill = (promises) => {
+  return new Promise((resolve, reject) => {
+    let result = [];
+    if (!promises.length) {
+      resolve(result);
+      return;
+    }
+    // let pending = promises.length;
+    // console.log(pending);
+    promises.forEach((promise, idx) => {
+      Promise.resolve(promise).then((res) => {
+        result = res;
+        // pending--;
+        // if (pending == 0) {
+        resolve(result);
+        return;
+        // }
+      }, reject);
+    });
+  });
+};
+
+Promise.racePloyfill([
+  importAction('import'),
+  LikeAction('like'),
+  shareAction('share'),
+]).then((res) => {
+  console.log(res);
+});
+var findGCD = function (nums) {
+  nums.sort((a, b) => a - b);
+  while (nums[0] != nums[nums.length - 1]) {
+    if (nums[0] > nums[nums.length - 1]) {
+      nums[0] -= nums[nums.length - 1];
+    } else {
+      nums[nums.length - 1] -= nums[0];
+    }
+  }
+  return nums[0];
+};
+console.log('GCD', findGCD([1, 3, 4, 6, 7]));
+
+function isPrimitive(obj) {
+  return obj !== Object(obj);
+}
+var areDeeplyEqual = function (obj1, obj2) {
+  if (obj1 === obj2)
+    // it's just the same object. No need to compare.
+    return true;
+
+  if (isPrimitive(obj1) && isPrimitive(obj2))
+    // compare primitives
+    return obj1 === obj2;
+
+  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+
+  // compare objects with same number of keys
+  for (let key in obj1) {
+    if (!(key in obj2)) return false; //other object doesn't have this prop
+    if (!areDeeplyEqual(obj1[key], obj2[key])) return false;
+  }
+
+  return true;
+};
+
+console.log(areDeeplyEqual({ a: 1 }, { a: 1 }));
+
+var findPeakElement = function (nums) {
+  let left = 0,
+    right = nums.length - 1,
+    mid;
+
+  while (left < right) {
+    mid = Math.floor((right + left) / 2);
+    if (nums[mid] > nums[mid + 1]) right = mid;
+    else left = mid + 1;
+  }
+  return left;
+};
+console.log(findPeakElement([1, 2, 3, 5, 4, 7]));
+
+// function debounce(func, timeout = 300) {
+//   let timer;
+//   return (...args) => {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => {
+//       func.apply(this, args);
+//     }, timeout);
+//   };
+// }
+// function saveInput() {
+//   console.log('Saving data');
+// }
+// const processChange = debounce(() => saveInput());
+
+// function findDifference(k, nArr) {
+//   nArr.sort((a, b) => a - b);
+
+//   var pairsWithDifferenceOfK = 0;
+
+//   for (var i = 0; i < nArr.length; i++) {
+//     if (
+//       Math.abs(nArr[i] - (nArr.length > i + k ? nArr[i + k] : nArr[i])) === k
+//     ) {
+//       pairsWithDifferenceOfK++;
+//     }
+//   }
+//   console.log(pairsWithDifferenceOfK);
+// }
+// var K = 2;
+// Arr = [1, 5, 3, 4, 2];
+// findDifference(K, [1]);
+
+// ('use strict');
+
+// const fs = require('fs');
+
+// process.stdin.resume();
+// process.stdin.setEncoding('utf-8');
+
+// let inputString = '';
+// let currentLine = 0;
+
+// process.stdin.on('data', function (inputStdin) {
+//   inputString += inputStdin;
+// });
+
+// process.stdin.on('end', function () {
+//   inputString = inputString.split('\n');
+//   main();
+// });
+
+// function readLine() {
+//   return inputString[currentLine++];
+// }
+
+// class StaffList {
+//   staffList = [];
+//   add(name, age) {
+//     if (Number(age) > 20) {
+//       if (this.staffList.find((i) => i.name == name) != 0) {
+//         this.staffList.push({
+//           name,
+//           age,
+//         });
+//       }
+//     } else {
+//       throw new Error('Staff member age must be greater than 20');
+//     }
+//   }
+//   remove(name) {
+//     let foundName = this.staffList.find((i) => i.name === name);
+//     if (foundName) {
+//       this.staffList = this.staffList.filter((i) => i.name !== name);
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+//   getSize() {
+//     return this.staffList.length;
+//   }
+// }
+
+// function main() {
+//   const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+
+//   const obj = new StaffList();
+//   const operationCount = parseInt(readLine().trim());
+
+//   for (let i = 1; i <= operationCount; i++) {
+//     const operationInfo = readLine().trim().split(' ');
+//     try {
+//       let res;
+//       if (operationInfo[0] === 'add') {
+//         obj.add(operationInfo[1], parseInt(operationInfo[2]));
+//       } else if (operationInfo[0] === 'remove') {
+//         res = obj.remove(operationInfo[1]);
+//         ws.write(`${res}\n`);
+//       } else if (operationInfo[0] === 'getSize') {
+//         res = obj.getSize();
+//         ws.write(`${res}\n`);
+//       }
+//     } catch (e) {
+//       ws.write(`${e}\n`);
+//     }
+//   }
+//   ws.end();
+// }
+
+// var compactObject = function (obj) {
+//   if (obj == null) {
+//     return null;
+//   }
+//   if (Array.isArray(obj)) {
+//     return obj.filter(Boolean).map(compactObject);
+//   }
+//   if (typeof obj !== 'object') {
+//     return obj;
+//   }
+//   let compact = {};
+//   for (let key in obj) {
+//     let value = compactObject(obj[key]);
+//     if (Boolean(value)) {
+//       compact[key] = value;
+//     }
+//   }
+//   return compact;
+// };
+
+// compactObject([0, null, 1]);
+
+var chunk = function (arr, size) {
+  let res = [];
+  for (let i = 0; i < arr.length; i += size) {
+    res.push(arr.slice(i, i + size));
+  }
+  return res;
+};
+
+chunk([1, 2, 3, 4], 1); //[[1],[2],[3],[4]]
+
+function sumAll(n) {
+  if (n == 1) {
+    return n;
+  }
+  return n + sumAll(n - 1);
+}
+
+console.log(sumAll(100));
+
+function pow(x, n) {
+  if (n == 1) {
+    return x;
+  }
+  return x * pow(x, n - 1);
+}
+
+console.log('enterhe pow', pow(2, 3));
+
+function fact(n) {
+  if (n == 1) {
+    return n;
+  }
+  return n * fact(n - 1);
+}
+console.log(fact(5));
+
+function fib(n) {
+  if (n <= 1) {
+    return n;
+  }
+  return fib(n - 1) + fib(n - 2);
+}
+console.log('enter the fib', fib(7));
+
+let company = {
+  // the same object, compressed for brevity
+  sales: [
+    { name: 'John', salary: 1000 },
+    { name: 'Alice', salary: 1600 },
+  ],
+  development: {
+    sites: [
+      { name: 'Peter', salary: 2000 },
+      { name: 'Alex', salary: 1800 },
+    ],
+    internals: [{ name: 'Jack', salary: 1300 }],
+  },
+};
+
+const calculate = (data) => {
+  if (Array.isArray(data)) {
+    return data.reduce((prev, curr) => prev + curr.salary, 0);
+  } else {
+    let sum = 0;
+    for (const subData of Object.values(data)) {
+      sum += calculate(subData);
+    }
+    return sum;
+  }
+};
+console.log(calculate(company));
+
+const missingNumber = (arr) => {
+  let start = arr[0];
+  let end = arr[arr.length - 1];
+  let res = [];
+  var found = false;
+  for (var j = start; j < end; j++) {
+    found = false;
+    for (var i = 0; i <= arr.length; i++) {
+      if (arr[i] == j) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      res.push(j);
+    }
+    console.log(res);
+  }
+};
+
+console.log(missingNumber([1, 3, 6, 9, 10]));
+
+function useState(initialValue) {
+  let state = initialValue;
+
+  function setState(newValue) {
+    state = newValue;
+  }
+
+  return [state, setState];
+}
+function App() {
+  const [count, setCount] = useState(0);
+
+  console.log(count);
+
+  setCount(10);
+}
+
+// document.getElementById("app").innerHTML += `
+// <h1>Hello Developer!</h1>
+// <div>
+//   This is a sandbox containing the code of Debounce implementation.
+// </div>
+// <p id="text" class="hovered"> Hover Over Me As you like and Check console after 1 second </p>
+// `;
+
+// const debounce = (func, delay) => {
+//   let timeout;
+//   return function executed() {
+//     const later = () => {
+//       timeout = null;
+//       func.apply(this, arguments);
+//     };
+//     clearTimeout(timeout);
+//     timeout = setTimeout(later, delay);
+//   };
+// };
+
+// const myFunction = debounce(function hoverEvent() {
+//   console.log(
+//     'I am logged after 1 second and my arguments are: ',
+//     ...arguments
+//   );
+// }, 1000);
+
+// const text = document.getElementById('text');
+// text.addEventListener('mouseover', function (e) {
+//   myFunction(1, 23, 35);
+// });
+
+let obj1222 = {
+  a: {
+    b: {
+      c: 1,
+      d: () => {
+        console.log('data');
+      },
+    },
+  },
+  e: 'data',
+};
+
+const deepCopy = (obj) => {
+  let tempObj = {};
+  for (let key in obj) {
+    if (typeof obj[key] == 'object') {
+      tempObj[key] = deepCopy(obj[key]);
+    } else {
+      tempObj[key] = obj[key];
+    }
+  }
+  return tempObj;
+};
+
+let obj2222 = deepCopy(obj1222);
+console.log(obj2222);
+console.log(obj1222);
+obj1222.a.b.c = 2;
+console.log(obj1222);
+console.log(obj2222);
+
+// On2
+const subSquence = (str1, str2) => {
+  let l = 0;
+  let r = 0;
+  while (l < str1.length && r < str2.length) {
+    if (str1[l] == str2[r]) {
+      l++;
+      r++;
+    } else {
+      r++;
+    }
+  }
+  console.log(l == str1.length);
+};
+
+console.log(subSquence('low', 'yellow'));
+
+// <!DOCTYPE html>
+// <html>
+//   <head>
+//     <style>
+//       #div1,
+//       #div2 {
+//         float: left;
+//         width: 100px;
+//         height: 35px;
+//         margin: 10px;
+//         padding: 10px;
+//         border: 1px solid black;
+//       }
+//     </style>
+//     <script>
+//       function allowDrop(ev) {
+//         ev.preventDefault();
+//       }
+//       function onDrag(ev) {
+//         ev.dataTransfer.setData("text", ev.target.id);
+//       }
+//       function onDrop(ev) {
+//         ev.preventDefault();
+//         var data = ev.dataTransfer.getData("text");
+//         ev.target.appendChild(document.getElementById(data));
+//       }
+//     </script>
+//   </head>
+//   <body>
+//     <div id="div1" ondragover="allowDrop(event)" ondrop="onDrop(event)">
+//       <label id="drag1" ondragstart="onDrag(event)" draggable="true">
+//         Hello
+//       </label>
+//     </div>
+//     <div id="div2" ondragover="allowDrop(event)" ondrop="onDrop(event)"></div>
+//   </body>
+// </html>
+
+// Button Center
+// .div {
+//   align-items: center;
+//   text-align: center;
+//   top: 50%;
+// }
+// .button {
+//   margin: 0px;
+//   position: absolute;
+//   top: 50%;
+// }
+
+// .App {
+//   font-family: sans-serif;
+//   text-align: center;
+// }
+// .board {
+//   width: 400px;
+//   height: 400px;
+// }
+// .row {
+//   width: 100%;
+//   display: flex;
+// }
+// .cell {
+//   width: 100px;
+//   height: 100px;
+//   background-color: grey;
+//   margin: 10px;
+//   font-size: 48px;
+// }
+
+// import "./styles.css";
+// const { useState, useCallback } = require("react");
+
+// const checkEndGame = (board) => {
+//   if (board[0] && board[0] === board[1] && board[1] === board[2]) {
+//     return board[0];
+//   }
+//   if (board[3] && board[3] === board[4] && board[4] === board[5]) {
+//     return board[3];
+//   }
+//   if (board[6] && board[6] === board[7] && board[7] === board[8]) {
+//     return board[6];
+//   }
+//   if (board[0] && board[0] === board[3] && board[3] === board[6]) {
+//     return board[0];
+//   }
+//   if (board[1] && board[1] === board[4] && board[4] === board[7]) {
+//     return board[1];
+//   }
+//   if (board[2] && board[2] === board[5] && board[5] === board[8]) {
+//     return board[2];
+//   }
+//   if (board[0] && board[0] === board[4] && board[4] === board[8]) {
+//     return board[0];
+//   }
+//   if (board[2] && board[2] === board[4] && board[4] === board[6]) {
+//     return board[2];
+//   }
+//   return "";
+// };
+// console.log("start");
+// setTimeout(() => {
+//   console.log("call");
+// });
+// const boardDefault = new Array(9).fill("");
+// function TicTacToe() {
+//   const [board, setBoard] = useState([...boardDefault]);
+//   const [gameStatus, setGameStatus] = useState("active");
+//   const [turn, setTurn] = useState("X");
+//   const [winner, setWinner] = useState("");
+
+//   const onCellClick = (index) => {
+//     if (board[index] || gameStatus !== "active") {
+//       return;
+//     }
+//     let newBoard = board;
+//     newBoard[index] = turn;
+//     setBoard(newBoard);
+//     setTurn(turn === "X" ? "O" : "X");
+//     let winner = checkEndGame(newBoard, index);
+//     if (winner) {
+//       setGameStatus("completed");
+//       setWinner(winner);
+//     }
+//   };
+//   const onReset = () => {
+//     setTurn("X");
+//     setWinner("");
+//     setBoard(boardDefault);
+//     setGameStatus("active");
+//   };
+//   return (
+//     <div>
+//       <div className="board">
+//         <div className="row">
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(0);
+//             }}
+//           >
+//             {board[0]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(1);
+//             }}
+//           >
+//             {board[1]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(2);
+//             }}
+//           >
+//             {board[2]}
+//           </div>
+//         </div>
+//         <div className="row">
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(3);
+//             }}
+//           >
+//             {board[3]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(4);
+//             }}
+//           >
+//             {board[4]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(5);
+//             }}
+//           >
+//             {board[5]}
+//           </div>
+//         </div>
+//         <div className="row">
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(6);
+//             }}
+//           >
+//             {board[6]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(7);
+//             }}
+//           >
+//             {board[7]}
+//           </div>
+//           <div
+//             className="cell"
+//             onClick={() => {
+//               onCellClick(8);
+//             }}
+//           >
+//             {board[8]}
+//           </div>
+//         </div>
+//       </div>
+//       <div className="status">
+//         <div className="turn">Turn: {turn}</div>
+//         <div className="status">Game is {gameStatus}</div>
+//         {(winner && <div className="winner">{winner} is the Winner</div>) || (
+//           <>No Data</>
+//         )}
+//         <button onClick={onReset}>Reset</button>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default function App() {
+//   return (
+//     <div className="App">
+//       <h1>TIC TAC TOE</h1>
+//       <TicTacToe />
+//     </div>
+//   );
+// }
+
+// // Questions -
+
+// // Q1. Game reset is not working for some reason. Please fix
+
+// // Q2. What do you think about this component?
+// // How would you improve in terms of user experience?
+// // What would you improve wrt code maintainance pov?
+
+// // Q3. Add a feature to save game histories.
+// // User can click on "Add game to start a new game"
+// // User can click on any previous games to go back to a
+// // previous game and resume
+
+// const formattedStudents = (students) => {
+//   students.sort((a,b) => b.rank - a.rank);
+//    let val = [];
+//    students.forEach((item) => {
+//      let res = {};
+//      res[item.id] = item.rank
+//      val.push(res)
+//    })
+//    return val
+// }
