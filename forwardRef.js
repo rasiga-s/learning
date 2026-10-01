@@ -1,25 +1,28 @@
-import { useEffect, useRef, useState } from "react";
-import UserInput from "./UserInput";
+import { useState, useRef } from "react";
+import ChildComponent from "./ChildComponent";
 
 function App() {
-  const ref = useRef(0);
-  const [count, Setcount] = useState(0);
-  const inputRef = useRef("");
+  const [count, setCount] = useState(0);
 
-  const OnClickHandler = () => {
-    Setcount(ref.current++);
-  };
-  useEffect(() => {
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    setCount((prev) => prev + 1);
+
     inputRef.current.focus();
-  });
+  };
+
   return (
     <>
-      <button onClick={OnClickHandler}>ADD</button>
-      <span>{count} </span>
-      <UserInput ref={inputRef} />
+      <button onClick={handleClick}>
+        Count: {count}
+      </button>
+
+      <ChildComponent ref={inputRef} />
     </>
   );
 }
+
 export default App;
 
 //forwardRef
@@ -30,12 +33,16 @@ export default App;
 
 import { forwardRef } from "react";
 
-const UserInput = forwardRef(function (props, ref) {
+const ChildComponent = forwardRef(function ChildComponent(props, ref) {
   return (
     <>
-      return <input type="text" ref={ref} />
+      <input
+        type="text"
+        ref={ref}
+        placeholder="Enter your name"
+      />
     </>
   );
 });
 
-export default UserInput;
+export default ChildComponent;
