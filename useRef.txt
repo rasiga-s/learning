@@ -49,6 +49,39 @@ function App(){
 
 export default App
 
+// 3. useRef for timer
+import { useRef, useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const timeRef = useRef(null);
+
+
+  const startTimer = () => {
+     timeRef.current = setInterval(() => {
+         setCount((prev) => prev + 1)
+     }, 1000)
+  }
+  const stopTimer = () => {
+     clearInterval(timeRef.current)
+  }
+  return (
+    <>
+      <h2>{count}</h2>
+
+      <button onClick={startTimer}>
+        Start
+      </button>
+
+      <button onClick={stopTimer}>
+        Stop
+      </button>
+    </>
+  );
+}
+
+export default App;
+
 // ref
 // useRef is build react hook, it accpets input as a arguments and return  a reference
 // the referenece is build in object store a property value that belongs to the component
@@ -57,3 +90,5 @@ export default App
 // useRef('');
 // ref.current;
 // ref.current = count
+
+useRef is used to persist a mutable value between renders without causing a re-render when the value changes. It is also commonly used to access DOM elements directly, such as focusing an input or storing a timer ID.
