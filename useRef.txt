@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+// 1. useRef for accessing a DOM element
 function App() {
   const ref = useRef(0);
   const [count, Setcount] = useState(0);
@@ -21,7 +22,7 @@ function App() {
 }
 export default App;
 
-// sample for current and previous count for ref
+// 2. sample for current and previous count for ref - useRef for storing a value without causing re-render
 import {useState, useRef, useEffect} from 'react';
 
 
