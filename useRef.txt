@@ -21,6 +21,33 @@ function App() {
 }
 export default App;
 
+// sample for current and previous count for ref
+import {useState, useRef, useEffect} from 'react';
+
+
+
+function App(){
+     const [count, setCount] = useState(0)
+     const prevCount = useRef(0);
+
+
+     const handleClick = () => {
+         setCount(count + 1)
+     }
+
+     useEffect(() => {
+         prevCount.current = count
+     }, [count])
+     return (
+         <>
+            <h5> Previous Count {prevCount.current} </h5>
+            <button onClick={handleClick}> Count {count} </button>
+         </>
+     )
+}
+
+export default App
+
 // ref
 // useRef is build react hook, it accpets input as a arguments and return  a reference
 // the referenece is build in object store a property value that belongs to the component
