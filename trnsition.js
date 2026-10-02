@@ -49,3 +49,4 @@ export default function App({ users }) {
     </div>
   );
 }
+// useTransition is a React Hook used to mark certain state updates as non-urgent. It allows React to prioritize urgent updates, such as user input, over expensive UI updates. isPending tells us whether the transition is currently in progress.
