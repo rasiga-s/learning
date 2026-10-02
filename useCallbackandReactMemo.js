@@ -43,3 +43,66 @@ function Todo(props) {
   );
 }
 export default memo(Todo);
+
+
+//  React.memo prevents re-rendering only when the component's props have not changed. In my case, handleDelete was recreated on every parent render, so its reference changed. Using useCallback keeps the function reference stable and allows React.memo to prevent the unnecessary re-render.
+
+import { useState, useCallback } from 'react';
+
+import Todo from './Todo.jsx';
+
+
+function App() {
+
+  const [list, setList] = useState([]);
+  const [data, setData] = useState({ name: '', id: '' });
+  const [count, setCount] = useState(0);
+
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setData(() => ({
+      name: value,
+      id: list.length + 1
+    }));
+  }
+    const onClickSubmit = useCallback((e) => {
+    e.preventDefault();
+    setList((prev) => ([
+      ...prev,
+      data
+    ]))
+    setData('')
+  },[data])
+
+  const handleDelete = useCallback((id) => {
+    setList((prev) =>
+      prev.filter((item) => item.id !== id)
+    );
+  }, []);
+
+  const handleCount = () => {
+    setCount(count + 1)
+  }
+
+  return (
+    <>
+      <h4> TODO List </h4>
+      <form onSubmit={onClickSubmit}>
+        <input value={data.name} type="text" onChange={handleChange} name="todo" />
+        <button type="submit"> save </button>
+        <Todo list={list} handleDelete={handleDelete} />
+      </form>
+              <button onClick={handleCount}> Count {count} </button>
+
+    </>
+
+
+
+  )
+
+}
+
+export default App
+
+
