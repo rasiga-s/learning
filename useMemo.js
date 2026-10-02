@@ -46,3 +46,5 @@ function App() {
   );
 }
 export default App;
+
+// useMemo is used to memoize the result of an expensive calculation. It recalculates the value only when one of its dependencies changes. It can help avoid unnecessary calculations when the component re-renders.
