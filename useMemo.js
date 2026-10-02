@@ -47,4 +47,5 @@ function App() {
 }
 export default App;
 
+// Now if you type in the input, React re-renders, but the expensive calculation is not executed again, because count hasn't changed.
 // useMemo is used to memoize the result of an expensive calculation. It recalculates the value only when one of its dependencies changes. It can help avoid unnecessary calculations when the component re-renders.
