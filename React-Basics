@@ -1,0 +1,964 @@
+
+
+1. Virtual DOM
+The Virtual DOM is a JavaScript representation of the UI.
+Virtual DOM is an in-memory representation of the UI. React uses it to determine what has changed between renders and then applies the necessary changes to the real DOM."
+
+2. Reconciliation
+During reconciliation, React determines the changes between the previous and next render trees. The commit phase then applies the required DOM mutations
+
+3. React Fiber
+React Fiber is React's internal reconciliation architecture. It breaks rendering work into units that React can schedule and prioritize, which enables features such as interruptible rendering and concurrent capabilities.
+
+4.Render Phase	                             Commit Phase
+Determines what should change	                 Applies changes
+Reconciliation happens	                       DOM mutations happen
+Can be interrupted/restarted	                 Must be completed consistently
+Should be pure	                               Performs side effects/DOM mutations
+
+5. Batching
+React groups multiple state updates together and performs fewer renders.
+ex: (2 state 1 render() count, name)
+function App() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+
+  const handleClick = () => {
+    setCount(1);
+    setName("Rasiga");
+  };
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <p>{name}</p>
+    </>
+  );
+}
+
+6.React Profiler
+Which components are rendering and how much time rendering takes.
+
+Common optimization tools:
+React.memo
+useMemo
+useCallback
+code splitting
+virtualization
+
+7. useLayoutEffect
+useLayoutEffect is similar to useEffect, but it runs synchronously after React updates the DOM and before the browser paints.
+Ex:
+import { useLayoutEffect, useRef, useState } from "react";
+
+function App() {
+  const boxRef = useRef(null);
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    const width = boxRef.current.getBoundingClientRect().width;
+    setWidth(width);
+  }, []);
+
+  return (
+    <>
+      <div ref={boxRef}>Hello</div>
+      <p>Width: {width}</p>
+    </>
+  );
+}
+When?
+Use it when you need to measure or synchronously modify the DOM before the user sees the result.
+Examples:
+Measuring element dimensions
+Positioning tooltips
+Preventing visual flickering
+Interview answer:
+"useLayoutEffect runs after DOM mutations but before the browser paints. It's useful when we need to measure or synchronously modify the DOM before the user sees the UI."
+
+8. useDeferredValue
+This is used when you have a value that changes frequently and the UI consuming that value is expensive.
+Ex:
+import { useDeferredValue, useState } from "react";
+
+function App() {
+  const [search, setSearch] = useState("");
+
+  const deferredSearch = useDeferredValue(search);
+
+  return (
+    <>
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <SearchResults search={deferredSearch} />
+    </>
+  );
+}
+Important
+useDeferredValue doesn't debounce.
+Debouncing:
+wait 300ms
+
+Deferred rendering:
+React prioritizes urgent work
+and delays lower-priority rendering
+Interview answer: 
+"useDeferredValue lets React defer updating a non-urgent part of the UI while keeping urgent updates, such as typing, responsive."
+
+9.useId
+useId generates a stable unique ID for accessibility and related DOM attributes.
+
+10.useSyncExternalStore
+useSyncExternalStore allows React components to safely subscribe to external stores. It's particularly useful for libraries that maintain state outside React."
+Examples:
+Redux
+Zustand
+Browser APIs
+Custom external stores
+WebSocket state
+
+10.useActionState(new hook)
+useActionState manages the result and pending state of an Action, making it useful for form submissions and other action-based UI updates
+
+import { useActionState } from "react";
+async function submitForm(previousState, formData) {
+  const name = formData.get("name");
+  if (!name) {
+    return {
+      error: "Name is required"
+    };
+  }
+  return {
+    success: true
+  };
+}
+
+function Form() {
+  const [state, formAction, isPending] = useActionState(
+    submitForm,
+    {}
+  );
+  return (
+    <form action={formAction}>
+      <input name="name" />
+
+      <button disabled={isPending}>
+        {isPending ? "Saving..." : "Save"}
+      </button>
+
+      {state.error && <p>{state.error}</p>}
+      {state.success && <p>Saved!</p>}
+    </form>
+  );
+}
+
+11.useOptimistic
+This is used when you want the UI to immediately show the expected result before the server confirms it.
+Example: Like button.
+
+Without optimistic UI:
+
+Click Like
+   ↓
+API request
+   ↓
+Server response
+   ↓
+Update UI
+
+User may experience delay.
+
+With optimistic UI:
+
+Click Like
+   ↓
+Immediately show ❤️
+   ↓
+API request
+   ↓
+Server confirms
+
+import { useOptimistic } from "react";
+
+function LikeButton({ likes, updateLike }) {
+  const [optimisticLikes, addOptimisticLike] =
+    useOptimistic(
+      likes,
+      (currentLikes, amount) => currentLikes + amount
+    );
+
+  async function handleLike() {
+    addOptimisticLike(1);
+
+    await updateLike();
+  }
+
+  return (
+    <button onClick={handleLike}>
+      ❤️ {optimisticLikes}
+    </button>
+  );
+}
+
+12. useFormStatus
+This is specifically useful with React forms and Actions.
+It lets a component inside a form know whether that form submission is pending.
+import { useFormStatus } from "react-dom";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button disabled={pending}>
+      {pending ? "Submitting..." : "Submit"}
+    </button>
+  );
+}
+
+function Form() {
+  async function submitAction(formData) {
+    await saveData(formData);
+  }
+
+  return (
+    <form action={submitAction}>
+      <input name="name" />
+
+      <SubmitButton />
+    </form>
+  );
+}
+useFormStatus() needs to be used inside a component rendered within the <form>.
+
+12.React.lazy()
+React.lazy() allows a component to be loaded dynamically, which helps split the application bundle and reduce the initial JavaScript that needs to be downloaded.
+
+import Dashboard from "./Dashboard";
+function App() {
+  return <Dashboard />;
+}
+Dashboard is included in the initial bundle.
+
+With React.lazy()
+import { lazy } from "react";
+const Dashboard = lazy(() => import("./Dashboard"));
+function App() {
+  return <Dashboard />;
+}
+
+13.Suspense
+Suspense lets React display a fallback UI while a component or other supported resource is not ready.
+import { lazy, Suspense } from "react";
+
+const Dashboard = lazy(() => import("./Dashboard"));
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <Dashboard />
+    </Suspense>
+  );
+
+14. Code Splitting
+Code splitting divides the application's JavaScript into smaller chunks so users don't have to download the entire application upfront.
+
+15.Dynamic Imports
+This is the JavaScript feature commonly used to implement code splitting.
+Normal import:
+import Dashboard from "./Dashboard";
+Dynamic import:
+const module = await import("./Dashboard"); -> import() returns a Promise.
+
+15. Loading/Error Boundaries
+Loading boundary: 
+Suspense acts as a loading boundary.
+Error Boundary
+An Error Boundary handles rendering errors in its child component tree.
+
+16.Actions
+An Action is an async function that React can use to handle an operation such as:
+submitting a form
+updating data
+deleting something
+sending a request to a server
+
+17. use
+use allows React components to read resources such as Promises and Context during rendering. When a Promise is pending, it integrates with Suspense so React can show the appropriate fallback.
+
+use with Promise
+Suppose you have:
+const userPromise = fetchUser();
+
+You can do:
+import { use } from "react";
+
+function User({ userPromise }) {
+  const user = use(userPromise);
+
+  return <h1>{user.name}</h1>;
+}
+ex2:
+const ThemeContext = createContext();
+
+function Button() {
+  const theme = use(ThemeContext);
+
+  return (
+    <button className={theme}>
+      Click
+    </button>
+  );
+}
+
+18.Modern Form Actions
+Previously, you might write:
+function App() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    await saveUser(formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" />
+      <button>Save</button>
+    </form>
+  );
+}
+
+You manually:
+preventDefault()
+      ↓
+FormData
+      ↓
+API call
+      ↓
+loading state
+      ↓
+error state
+
+React supports passing an Action directly to the form:
+async function saveUser(formData) {
+  const name = formData.get("name");
+  await fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({ name })
+  });
+}
+function App() {
+  return (
+    <form action={saveUser}>
+      <input name="name" />
+      <button>Save</button>
+    </form>
+  );
+}
+Notice:
+<form action={saveUser}>
+Instead of:
+<form onSubmit={handleSubmit}>
+React invokes the function with the form data.
+
+19.Server Components
+A React Server Component (RSC) is a component whose rendering happens on the server rather than in the browser.
+With a traditional client-heavy React application:
+Browser
+   ↓
+Download JavaScript
+   ↓
+Execute JavaScript
+   ↓
+Fetch data
+   ↓
+Render UI
+
+Server Components allow more work to happen on the server:
+Browser
+   ↓
+Request page
+   ↓
+Server
+   ├── Fetch data
+   ├── Render Server Component
+   └── Send result
+   ↓
+Browser
+   ↓
+Interactive client components
+
+This can reduce the amount of JavaScript that needs to be sent to the browser.
+
+20. client Component / server Component
+Client Component
+
+In frameworks such as Next.js, you can explicitly mark a component:
+
+"use client";
+
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      {count}
+    </button>
+  );
+}
+
+export default Counter;
+
+async function Product() {
+  const response = await fetch(
+    "https://api.example.com/products/1"
+  );
+
+  const product = await response.json();
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>{product.price}</p>
+    </div>
+  );
+}
+
+21. Portals
+A Portal lets us render a React element into a different DOM node while keeping it connected to the same React component tree. It's commonly used for modals, tooltips, and overlays.
+
+22. StrictMode
+StrictMode is a development-only tool that helps identify potential problems in your React application.
+
+import { StrictMode } from "react";
+
+function App() {
+  return (
+    <StrictMode>
+      <MyComponent />
+    </StrictMode>
+  );
+}
+
+23.SSR — Server-Side Rendering
+SSR means:
+Rendering React UI on the server and sending HTML to the browser.
+
+24.Hydration
+Hydration is the process where React attaches its client-side behavior to HTML that was already rendered on the server, making the server-rendered page interactive.
+
+25.|                | CSR (Client-Side Rendering)  | SSR            | SSG    (Static Site Generation)                                |
+| -------------- | ------------------------- | -------------- | -------------------------------------- |
+| HTML generated | Browser                   | Server         | Build time                             |
+| Data fetching  | Client                    | Server/request | Build time                             |
+| Initial HTML   | Usually minimal           | Rendered HTML  | Pre-rendered HTML                      |
+| Hydration      | Usually not SSR hydration | Yes            | Usually yes for interactive React      |
+| SEO            | Depends on implementation | Generally good | Generally good                         |
+| Dynamic data   | Easy client-side          | Good           | Requires rebuild/revalidation strategy |
+| Typical use    | Dashboard                 | Dynamic pages  | Blog/docs/marketing                    |
+
+
+26.React Compiler
+React Compiler is a build-time optimization tool that analyzes React code and can automatically optimize re-rendering and memoization, reducing the need for manual performance optimizations such as useMemo, useCallback, and React.memo in many cases.
+
+26.Activity
+
+<Activity> is a newer React API for controlling the rendering behavior of UI that is currently visible vs hidden.
+Think about a tab interface.
+Tabs
+[Home] [Profile] [Settings]
+
+You might have:
+Home
+Profile
+Settings
+
+When you switch from Home to Profile, you may want the previous UI to remain preserved rather than completely destroying its state.
+Conceptually:
+Activity
+   │
+   ├── visible
+   │      ↓
+   │   Active UI
+   │
+   └── hidden
+          ↓
+       UI preserved
+       but work deprioritized
+
+Example conceptually:
+<Activity mode={isVisible ? "visible" : "hidden"}>
+  <Profile />
+</Activity>
+When:
+isVisible = true
+the Activity is visible.
+When:
+isVisible = false
+React can hide the content while preserving its state and reducing background work.
+Why is this useful?
+Imagine:
+
+Search page
+   ↓
+User opens Settings
+   ↓
+Search page hidden
+
+You may want:
+
+Search input
+   ↓
+preserve typed value
+
+rather than:
+
+Search input
+   ↓
+destroy component
+   ↓
+return
+   ↓
+start from scratch
+
+Activity provides a mechanism for managing this hidden UI.
+
+Important mental model
+Normal conditional rendering
+{show && <Component />}
+false
+ ↓
+Component removed
+ ↓
+State lost
+
+Activity:
+
+<Activity mode="hidden">
+   <Component />
+</Activity>
+
+hidden
+ ↓
+UI hidden
+ ↓
+state can be preserved
+ ↓
+background work is deprioritized
+Interview answer:
+"Activity lets React manage UI that is currently visible versus hidden while preserving the hidden subtree's state and deprioritizing its background work. It's useful for interfaces such as tabs and navigation where you want to preserve UI state."
+
+
+27.Context Performance Problems
+Context itself isn't a state-management solution optimized for high-frequency updates. When the Provider value changes, its consumers can re-render. We can reduce unnecessary renders by splitting contexts, memoizing provider values, and keeping frequently changing state out of a broad Context.
+
+28.| Context                          | Redux                                |
+| -------------------------------- | ------------------------------------ |
+| Built into React                 | External state-management library    |
+| Simple global values             | Complex application state            |
+| Minimal setup                    | More structured architecture         |
+| Provider-based                   | Store + actions + reducers           |
+| No built-in DevTools equivalent  | Excellent Redux DevTools             |
+| Good for theme/auth/config       | Good for complex shared state        |
+| Performance needs careful design | Fine-grained subscriptions/selectors |
+
+29. Redux Fundamentals
+1. Store
+
+The store contains application state.
+
+{
+  user: {
+    name: "Rasiga"
+  },
+  cart: {
+    items: []
+  }
+}
+2. Action
+
+An action describes what happened.
+
+{
+  type: "cart/addItem",
+  payload: {
+    id: 1,
+    name: "Laptop"
+  }
+}
+3. Reducer
+
+Reducer determines how state changes.
+
+function cartReducer(state, action) {
+  switch (action.type) {
+    case "cart/addItem":
+      return {
+        ...state,
+        items: [...state.items, action.payload]
+      };
+
+    default:
+      return state;
+  }
+}
+4. Dispatch
+
+Component sends an action.
+
+dispatch({
+  type: "cart/addItem",
+  payload: product
+});
+Reducers should be pure functions.
+
+30.Redux Toolkit 
+Redux Toolkit (RTK) is the recommended way to write Redux today.
+
+Instead of manually writing lots of Redux boilerplate:
+Action types
+Action creators
+Reducers
+Immutable updates
+Store configuration
+Middleware
+
+RTK provides APIs to simplify this.
+Main APIs to know:
+configureStore
+createSlice
+createAsyncThunk
+createSelector
+
+createSlice
+
+Instead of manually creating action types and reducers:
+
+const cartSlice = createSlice({
+  name: "cart",
+
+  initialState: {
+    items: []
+  },
+
+  reducers: {
+    addItem: (state, action) => {
+      state.items.push(action.payload);
+    },
+
+    removeItem: (state, action) => {
+      state.items = state.items.filter(
+        item => item.id !== action.payload
+      );
+    }
+  }
+});
+Store
+import { configureStore } from "@reduxjs/toolkit";
+import cartReducer from "./cartSlice";
+
+const store = configureStore({
+  reducer: {
+    cart: cartReducer
+  }
+});
+
+export default store;
+
+Then:
+
+<Provider store={store}>
+  <App />
+</Provider>
+import { useDispatch, useSelector } from "react-redux";
+
+function Cart() {
+
+  const items = useSelector(
+    state => state.cart.items
+  );
+
+  const dispatch = useDispatch();
+
+  const addItem = () => {
+    dispatch({
+      type: "cart/addItem",
+      payload: {
+        id: 1,
+        name: "Laptop"
+      }
+    });
+  };
+
+  return (
+    <>
+      <button onClick={addItem}>
+        Add
+      </button>
+
+      {items.map(item => (
+        <p key={item.id}>{item.name}</p>
+      ))}
+    </>
+  );
+}
+Redux Toolkit is the recommended approach for Redux applications. It reduces boilerplate through APIs like configureStore and createSlice, provides good defaults, and uses Immer to simplify immutable state updates.
+
+31.Zustand / Lightweight State Management 
+Zustand is a lightweight state-management library.
+The key difference from Context is that components can subscribe directly to the store.
+
+Zustand example
+import { create } from "zustand";
+
+const useStore = create((set) => ({
+  count: 0,
+
+  increment: () =>
+    set(state => ({
+      count: state.count + 1
+    }))
+}));
+function Counter() {
+
+  const count = useStore(state => state.count);
+
+  const increment = useStore(
+    state => state.increment
+  );
+
+  return (
+    <>
+      <p>{count}</p>
+
+      <button onClick={increment}>
+        +
+      </button>
+    </>
+  );
+}
+
+| Redux Toolkit                 | Zustand                       |
+| ----------------------------- | ----------------------------- |
+| More structured               | Minimal API                   |
+| Large ecosystem               | Lightweight                   |
+| Excellent DevTools            | Simpler debugging             |
+| Actions/reducers/slices       | Store + setters               |
+| Good for complex applications | Good for simpler shared state |
+| More boilerplate              | Less boilerplate              |
+
+32.React Query / TanStack Query
+TanStack Query is designed primarily for managing server state.
+normal:
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  setLoading(true);
+
+  fetch("/api/products")
+    .then(res => res.json())
+    .then(data => {
+      setData(data);
+      setLoading(false);
+    })
+    .catch(error => {
+      setError(error);
+      setLoading(false);
+    });
+}, []);
+
+TanSankQuery
+import { useQuery } from "@tanstack/react-query";
+
+function Products() {
+
+  const {
+    data,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: () =>
+      fetch("/api/products")
+        .then(res => res.json())
+  });
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error</p>;
+  }
+
+  return (
+    <>
+      {data.map(product => (
+        <p key={product.id}>
+          {product.name}
+        </p>
+      ))}
+    </>
+  );
+}
+
+TanStack Query handles things such as:
+Fetching
+Caching
+Refetching
+Stale data
+Retries
+Background updates
+Request deduplication
+Pagination/infinite queries
+Mutations
+
+33. Data Fetching (fetch)
+Interview point: Don't make the useEffect callback itself async.
+
+useEffect(async () => {
+  ...
+}, []);
+
+Prefer:
+useEffect(() => {
+  async function fetchUsers() {
+    const response = await fetch("/api/users");
+    const data = await response.json();
+
+    setUsers(data);
+  }
+
+  fetchUsers();
+}, []);
+
+34.Request Cancellation
+Suppose the user navigates away while the API request is still running.
+Component
+   ↓
+API request ────────────────→
+   ↓
+Component unmounts
+
+The request may still continue.
+We can cancel it when the component unmounts.
+That's where AbortController comes in.
+
+35.AbortController
+useEffect(() => {
+  const controller = new AbortController();
+
+  async function fetchUsers() {
+    try {
+      const response = await fetch("/api/users", {
+        signal: controller.signal
+      });
+
+      const data = await response.json();
+
+      setUsers(data);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        return;
+      }
+
+      setError(error.message);
+    }
+  }
+
+  fetchUsers();
+
+  return () => {
+    controller.abort();
+  };
+}, []);
+AbortController allows us to cancel an ongoing fetch request. We pass its signal to fetch and call abort() in the effect cleanup function, which is useful when a component unmounts or when an old request is no longer relevant.
+
+36.Race Conditions in useEffect
+Imagine a search box:
+
+User types: "react"
+       ↓
+Request A
+
+User quickly types: "react hooks"
+       ↓
+Request B
+
+Suppose:
+
+Request A → 1000ms
+Request B → 200ms
+
+B finishes first:
+B → react hooks
+
+Then A finishes:
+A → react
+
+Now the UI might incorrectly show:
+react
+even though the latest search was:
+react hooks
+That's a race condition.
+
+Solution: Abort old request
+query = react
+   ↓
+Request A
+
+query = react hooks
+   ↓
+Cleanup A → abort A
+   ↓
+Request B
+race condition can happen when multiple asynchronous requests are triggered and an older request finishes after a newer request, overwriting the latest data. I can prevent this by cancelling the previous request with AbortController or by tracking request identity before updating state
+
+36.Infinite Scrolling
+the application loads more data when the user reaches the bottom.
+
+Page 1
+   ↓
+User scrolls
+   ↓
+Page 2
+   ↓
+User scrolls
+   ↓
+Page 3
+
+A common modern approach is IntersectionObserver.
+useEffect(() => {
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      loadMore();
+    }
+  });
+
+  if (loaderRef.current) {
+    observer.observe(loaderRef.current);
+  }
+
+  return () => observer.disconnect();
+}, []);
+
+                User
+                 ↓
+            Scrolls down
+                 ↓
+        Bottom element visible
+                 ↓
+       IntersectionObserver
+                 ↓
+            loadMore()
+                 ↓
+            API page 2
+                 ↓
+          Append new data
+
